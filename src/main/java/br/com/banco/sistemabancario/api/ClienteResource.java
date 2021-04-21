@@ -1,4 +1,4 @@
-package br.com.banco.sistemabancario.model.api;
+package br.com.banco.sistemabancario.api;
 
 import br.com.banco.sistemabancario.model.cliente.Cliente;
 import br.com.banco.sistemabancario.model.cliente.ClienteDto;

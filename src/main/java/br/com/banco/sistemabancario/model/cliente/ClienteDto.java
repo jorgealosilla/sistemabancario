@@ -1,6 +1,6 @@
 package br.com.banco.sistemabancario.model.cliente;
 
-import br.com.banco.sistemabancario.model.api.util.AbstractRepresentationBuilder;
+import br.com.banco.sistemabancario.api.util.AbstractRepresentationBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
