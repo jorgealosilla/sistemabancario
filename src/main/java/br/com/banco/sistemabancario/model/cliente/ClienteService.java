@@ -1,9 +1,9 @@
 package br.com.banco.sistemabancario.model.cliente;
 
+import br.com.banco.sistemabancario.model.contacorrente.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,10 +13,16 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private ContaService contaService;
 
-    public Cliente save(final @Valid Cliente cliente) {
+    public Cliente save(final Cliente cliente) {
         validate(cliente);
-        return clienteRepository.save(cliente);
+        Cliente c = clienteRepository.save(cliente);
+
+        //TODO: Implementar criação da conta assincrona
+        c.adicionaConta(contaService.criaOuAtualizaConta(c));
+        return clienteRepository.save(c);
     }
 
     public Iterable<Cliente> findAll() {

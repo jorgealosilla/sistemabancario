@@ -1,5 +1,6 @@
 package br.com.banco.sistemabancario.model.cliente;
 
+import br.com.banco.sistemabancario.model.contacorrente.Conta;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,4 +44,12 @@ public class Cliente {
     @Max(10)
     @Min(0)
     private int score;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_CONTAS")
+    private Conta conta;
+
+    public void adicionaConta(final Conta conta) {
+        this.conta = conta;
+    }
 }
