@@ -1,4 +1,4 @@
-package br.com.banco.sistemabancario.model.contacorrente;
+package br.com.banco.sistemabancario.model.conta;
 
 import br.com.banco.sistemabancario.model.cliente.Cliente;
 import br.com.banco.sistemabancario.model.cliente.TipoPessoa;

@@ -1,6 +1,6 @@
 package br.com.banco.sistemabancario.model.cliente;
 
-import br.com.banco.sistemabancario.model.contacorrente.Conta;
+import br.com.banco.sistemabancario.model.conta.Conta;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package br.com.banco.sistemabancario.model.contacorrente;
+package br.com.banco.sistemabancario.model.conta;
 
 public enum TipoConta {
     CORRENTE("C", "Conta Corrente"),

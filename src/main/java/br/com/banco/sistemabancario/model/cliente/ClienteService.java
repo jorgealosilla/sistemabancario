@@ -1,6 +1,6 @@
 package br.com.banco.sistemabancario.model.cliente;
 
-import br.com.banco.sistemabancario.model.contacorrente.ContaService;
+import br.com.banco.sistemabancario.model.conta.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

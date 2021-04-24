@@ -1,4 +1,4 @@
-package br.com.banco.sistemabancario.model.contacorrente;
+package br.com.banco.sistemabancario.model.conta;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
