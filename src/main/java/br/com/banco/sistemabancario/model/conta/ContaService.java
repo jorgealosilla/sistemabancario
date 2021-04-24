@@ -14,39 +14,46 @@ public class ContaService {
 
     @Autowired
     private ContaRepository contaRepository;
+    @Autowired
+    private ChequeEspecialService chequeEspecialService;
 
     @Value("${constants.conta.agencia}")
     private String agencia;
 
-
     public Conta criaOuAtualizaConta(final Cliente cliente) {
-        if (contaRepository.existisContaByIdCliente(cliente.getId()))
-            return atualizaConta(cliente);
-        return criaConta(cliente);
+        Conta conta;
+        if (contaRepository.existsContaByIdCliente(cliente.getId())) {
+            conta = atualizaConta(cliente);
+        } else {
+            conta = criaConta(cliente);
+        }
+
+        Conta contaDb = contaRepository.save(conta);
+        ChequeEspecial chequeEspecial = chequeEspecialService.criaOuAtualizaChequeEspecial(contaDb);
+        contaDb.adicionaChequeEspecial(chequeEspecial);
+
+        return contaRepository.save(contaDb);
     }
 
     private Conta criaConta(Cliente cliente) {
-        Conta conta = Conta.builder()
+        return Conta.builder()
                 .cliente(cliente)
                 .numero(gerarNumeroConta())
                 .agencia(agencia)
                 .tipoConta(cliente.getTipoPessoa().equals(TipoPessoa.FISICA) ? TipoConta.CORRENTE : TipoConta.EMPRESARIAL)
                 .build();
-        return contaRepository.save(conta);
     }
 
     private Conta atualizaConta(final Cliente cliente) {
         Optional<Conta> optionalConta = contaRepository.findContaByIdCliente(cliente.getId());
         Conta conta = optionalConta.get();
-        return contaRepository.save(
-                Conta.builder()
-                        .id(conta.getId())
-                        .cliente(cliente)
-                        .numero(conta.getNumero())
-                        .agencia(agencia)
-                        .tipoConta(cliente.getTipoPessoa().equals(TipoPessoa.FISICA) ? TipoConta.CORRENTE : TipoConta.EMPRESARIAL)
-                        .build()
-        );
+        return Conta.builder()
+                .id(conta.getId())
+                .cliente(cliente)
+                .numero(conta.getNumero())
+                .agencia(agencia)
+                .tipoConta(cliente.getTipoPessoa().equals(TipoPessoa.FISICA) ? TipoConta.CORRENTE : TipoConta.EMPRESARIAL)
+                .build();
     }
 
     private String gerarNumeroConta() {

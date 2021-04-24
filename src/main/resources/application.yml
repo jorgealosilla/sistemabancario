@@ -10,3 +10,20 @@ spring:
 constants:
   conta:
     agencia: "1739"
+    limites:
+      faixa-1:
+        score: "[0-1]"
+        limite-cheque-especial: "0"
+        limite-cartao-credito: "0"
+      faixa-2:
+        score: "[2-5]"
+        limite-cheque-especial: "1000"
+        limite-cartao-credito: "200"
+      faixa-3:
+        score: "[6-8]"
+        limite-cheque-especial: "2000"
+        limite-cartao-credito: "2000"
+      faixa-4:
+        score: "[9]"
+        limite-cheque-especial: "5000"
+        limite-cartao-credito: "15000"

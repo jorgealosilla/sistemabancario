@@ -82,7 +82,7 @@ public class ClienteDto {
 
         @Override
         public Cliente fromRepresentation(final ClienteDto dto, final Cliente.ClienteBuilder builder) {
-            int score = new Random().nextInt(11);
+            int score = new Random().nextInt(10);
             return builder
                     .nome(dto.getNome())
                     .tipoPessoa(dto.getTipo())

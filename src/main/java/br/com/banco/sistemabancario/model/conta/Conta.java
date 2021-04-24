@@ -39,4 +39,15 @@ public class Conta {
     @JoinColumn(name = "ID_CLIENTES")
     private Cliente cliente;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_CHEQUE_ESPECIAL")
+    private ChequeEspecial chequeEspecial;
+
+    public int getScoreCliente() {
+        return cliente.getScore();
+    }
+
+    public void adicionaChequeEspecial(ChequeEspecial chequeEspecial) {
+        this.chequeEspecial = chequeEspecial;
+    }
 }

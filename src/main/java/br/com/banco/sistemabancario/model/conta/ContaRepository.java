@@ -11,5 +11,5 @@ public interface ContaRepository extends CrudRepository<Conta, Long> {
     Optional<Conta> findContaByIdCliente(final Long idCliente);
 
     @Query(value = "select count(*) > 0 from Conta c where c.cliente.id = :idCliente")
-    boolean existisContaByIdCliente(final Long idCliente);
+    boolean existsContaByIdCliente(final Long idCliente);
 }
