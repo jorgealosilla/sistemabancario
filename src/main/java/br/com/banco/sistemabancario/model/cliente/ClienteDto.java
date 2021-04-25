@@ -82,6 +82,7 @@ public class ClienteDto {
 
         @Override
         public Cliente fromRepresentation(final ClienteDto dto, final Cliente.ClienteBuilder builder) {
+            // TODO: Ajustar para não gerar novamente o scoreautomatico no update
             int score = new Random().nextInt(10);
             return builder
                     .nome(dto.getNome())

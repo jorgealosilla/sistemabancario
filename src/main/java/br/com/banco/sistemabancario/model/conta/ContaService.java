@@ -16,6 +16,10 @@ public class ContaService {
     private ContaRepository contaRepository;
     @Autowired
     private ChequeEspecialService chequeEspecialService;
+    @Autowired
+    private CartaoCreditoService cartaoCreditoService;
+    @Autowired
+    private FaixaScoreHelper faixaScoreHelper;
 
     @Value("${constants.conta.agencia}")
     private String agencia;
@@ -29,8 +33,14 @@ public class ContaService {
         }
 
         Conta contaDb = contaRepository.save(conta);
+
         ChequeEspecial chequeEspecial = chequeEspecialService.criaOuAtualizaChequeEspecial(contaDb);
         contaDb.adicionaChequeEspecial(chequeEspecial);
+
+        if (faixaScoreHelper.getFaixaByScore(conta.getScoreCliente()).geraCartaoCredito()) {
+            CartaoCredito cartaoCredito = cartaoCreditoService.criaOuAtualizaCartaoCredito(contaDb);
+            contaDb.adicionaCartaoCredito(cartaoCredito);
+        }
 
         return contaRepository.save(contaDb);
     }
