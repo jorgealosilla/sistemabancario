@@ -1,4 +1,4 @@
-package br.com.banco.sistemabancario.model.api.util;
+package br.com.banco.sistemabancario.api.util;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

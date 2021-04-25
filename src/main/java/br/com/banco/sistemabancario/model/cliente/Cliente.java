@@ -1,11 +1,14 @@
 package br.com.banco.sistemabancario.model.cliente;
 
+import br.com.banco.sistemabancario.model.conta.Conta;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -26,7 +29,6 @@ public class Cliente {
     private String nome;
 
     @NotNull
-    @Size(max = 1)
     @Column(name = "TIPO_PESSOA", columnDefinition = "VARCHAR2", length = 1)
     private TipoPessoa tipoPessoa;
 
@@ -39,15 +41,15 @@ public class Cliente {
     private String cnpj;
 
     @Column(name = "SCORE", length = 1)
-    @Size(max = 1)
+    @Max(10)
+    @Min(0)
     private int score;
 
-    public static class BuilderUpdate extends ClienteBuilder {
-        public ClienteBuilder from(Cliente cliente) {
-            id(cliente.getId());
-            return this;
-        }
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_CONTAS")
+    private Conta conta;
 
+    public void adicionaConta(final Conta conta) {
+        this.conta = conta;
     }
-
 }

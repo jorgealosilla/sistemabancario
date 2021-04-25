@@ -1,4 +1,4 @@
-package br.com.banco.sistemabancario.model.api;
+package br.com.banco.sistemabancario.api;
 
 import br.com.banco.sistemabancario.model.cliente.Cliente;
 import br.com.banco.sistemabancario.model.cliente.ClienteDto;
@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -37,7 +38,7 @@ public class ClienteResource {
 
     @PostMapping
     public @ResponseBody
-    ResponseEntity create(@RequestBody final ClienteDto dto) {
+    ResponseEntity create(@RequestBody @Valid final ClienteDto dto) {
         Cliente cliente = representationBuilder.fromRepresentation(dto, Cliente.builder());
         clienteService.save(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(representationBuilder.toRepresentation(cliente));

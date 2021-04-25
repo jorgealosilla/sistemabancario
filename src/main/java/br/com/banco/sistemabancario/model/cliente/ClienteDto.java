@@ -1,6 +1,6 @@
 package br.com.banco.sistemabancario.model.cliente;
 
-import br.com.banco.sistemabancario.model.api.util.AbstractRepresentationBuilder;
+import br.com.banco.sistemabancario.api.util.AbstractRepresentationBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,11 @@ public class ClienteDto {
     @Size(max = 200)
     private String nome;
     private TipoPessoa tipo;
-    @Size(max = 11)
+    @Size(min = 11, max = 11)
     private String cpf;
-    @Size(max = 14)
+    @Size(min = 14, max = 14)
     private String cnpj;
-    @Size(max = 2)
+
     private int score;
 
     private ClienteDto() {
@@ -79,10 +79,11 @@ public class ClienteDto {
         public static Builder create() {
             return new Builder();
         }
-        
+
         @Override
         public Cliente fromRepresentation(final ClienteDto dto, final Cliente.ClienteBuilder builder) {
-            int score = new Random().nextInt(11);
+            // TODO: Ajustar para não gerar novamente o scoreautomatico no update
+            int score = new Random().nextInt(10);
             return builder
                     .nome(dto.getNome())
                     .tipoPessoa(dto.getTipo())
