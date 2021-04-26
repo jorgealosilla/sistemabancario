@@ -24,17 +24,17 @@ public class CartaoCreditoService {
     @Autowired
     private FaixaScoreHelper faixaScoreHelper;
 
-    public CartaoCredito criaOuAtualizaCartaoCredito(final Conta conta) {
+    public CartaoCredito criaOuAtualizaCartaoCredito(final Conta conta, final int scoreCliente) {
         if (repository.existsCartaoCreditoByIdConta(conta.getId()))
-            return atualizaCartaoCredito(conta);
-        return criaCartaoCredito(conta);
+            return atualizaCartaoCredito(conta, scoreCliente);
+        return criaCartaoCredito(conta, scoreCliente);
     }
 
-    private CartaoCredito criaCartaoCredito(Conta conta) {
-        if (conta.getScoreCliente() > 0) {
+    private CartaoCredito criaCartaoCredito(Conta conta, final int scoreCliente) {
+        if (scoreCliente > 0) {
             CartaoCredito cartaoCredito = CartaoCredito.builder()
                     .conta(conta)
-                    .limite(getLimiteCartaoCredito(conta.getScoreCliente()))
+                    .limite(getLimiteCartaoCredito(scoreCliente))
                     .build();
             return repository.save(cartaoCredito);
         } else {
@@ -42,14 +42,14 @@ public class CartaoCreditoService {
         }
     }
 
-    private CartaoCredito atualizaCartaoCredito(final Conta conta) {
+    private CartaoCredito atualizaCartaoCredito(final Conta conta, final int scoreCliente) {
         Optional<CartaoCredito> optionalCartaoCredito = repository.findCartaoCreditoByIdConta(conta.getId());
         CartaoCredito cartaoCredito = optionalCartaoCredito.get();
         return repository.save(
                 CartaoCredito.builder()
                         .id(cartaoCredito.getId())
                         .conta(conta)
-                        .limite(getLimiteCartaoCredito(conta.getScoreCliente()))
+                        .limite(getLimiteCartaoCredito(scoreCliente))
                         .build()
         );
     }

@@ -45,8 +45,7 @@ public class Cliente {
     @Min(0)
     private int score;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_CONTAS")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Conta conta;
 
     public void adicionaConta(final Conta conta) {

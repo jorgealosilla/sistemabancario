@@ -25,6 +25,13 @@ public class ClienteService {
         return clienteRepository.save(c);
     }
 
+    public Cliente update(final Cliente cliente) {
+        validate(cliente);
+        //TODO: Implementar criação da conta assincrona
+        cliente.adicionaConta(contaService.criaOuAtualizaConta(cliente));
+        return clienteRepository.save(cliente);
+    }
+
     public Iterable<Cliente> findAll() {
         return clienteRepository.findAll();
     }
@@ -33,8 +40,11 @@ public class ClienteService {
         return clienteRepository.findById(id);
     }
 
-    public void deleteById(final Long id) {
-        clienteRepository.deleteById(id);
+    public void delete(final Long id) {
+        Optional<Cliente> optionalCliente = clienteRepository.findById(id);
+        if (optionalCliente.isPresent()) {
+            clienteRepository.delete(optionalCliente.get());
+        }
     }
 
     public void validate(final Cliente cliente) {
