@@ -1,7 +1,7 @@
 package br.com.banco.sistemabancario.api;
 
 import br.com.banco.sistemabancario.model.cliente.Cliente;
-import br.com.banco.sistemabancario.model.cliente.ClienteDto;
+import br.com.banco.sistemabancario.api.dto.ClienteDto;
 import br.com.banco.sistemabancario.model.cliente.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,13 +52,13 @@ public class ClienteResource {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         Cliente cliente = representationBuilder.fromRepresentation(dto, Cliente.builder().id(id));
-        clienteService.save(cliente);
+        cliente = clienteService.update(cliente);
         return ResponseEntity.status(HttpStatus.OK).body(representationBuilder.toRepresentation(cliente));
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") final Long id) {
-        clienteService.deleteById(id);
+        clienteService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -24,32 +24,37 @@ public class ChequeEspecialService {
     @Autowired
     private FaixaScoreHelper faixaScoreHelper;
 
-    public ChequeEspecial criaOuAtualizaChequeEspecial(final Conta conta) {
+    public ChequeEspecial criaOuAtualizaChequeEspecial(final Conta conta, final int scoreCliente) {
         if (repository.existsChequeEspecialByIdConta(conta.getId()))
-            return atualizaChequeEspecial(conta);
-        return criaChequeEspecial(conta);
+            return atualizaChequeEspecial(conta, scoreCliente);
+        return criaChequeEspecial(conta, scoreCliente);
     }
 
-    private ChequeEspecial criaChequeEspecial(Conta conta) {
+    private ChequeEspecial criaChequeEspecial(final Conta conta, final int scoreCliente) {
         ChequeEspecial chequeEspecial = ChequeEspecial.builder()
                 .conta(conta)
-                .ativo(conta.getScoreCliente() > 0)
-                .limite(getLimiteChequeEspecial(conta.getScoreCliente()))
+                .ativo(isAtivo(scoreCliente))
+                .limite(getLimiteChequeEspecial(scoreCliente))
                 .build();
         return repository.save(chequeEspecial);
     }
 
-    private ChequeEspecial atualizaChequeEspecial(final Conta conta) {
+    private ChequeEspecial atualizaChequeEspecial(final Conta conta, final int scoreCliente) {
         Optional<ChequeEspecial> optionalChequeEspecial = repository.findChequeEspecialByIdConta(conta.getId());
         ChequeEspecial chequeEspecial = optionalChequeEspecial.get();
         return repository.save(
                 ChequeEspecial.builder()
                         .id(chequeEspecial.getId())
                         .conta(conta)
-                        .ativo(conta.getScoreCliente() > 0)
-                        .limite(getLimiteChequeEspecial(conta.getScoreCliente()))
+                        .ativo(isAtivo(scoreCliente))
+                        .limite(getLimiteChequeEspecial(scoreCliente))
                         .build()
         );
+    }
+
+    private boolean isAtivo(final int scoreCliente){
+        FaixaScore faixaScore = faixaScoreHelper.getFaixaByScore(scoreCliente);
+        return faixaScore.ativaLimiteChequeEspecial();
     }
 
     private BigDecimal getLimiteChequeEspecial(final int scoreCliente) {

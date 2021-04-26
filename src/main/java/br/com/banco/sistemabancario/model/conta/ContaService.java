@@ -32,13 +32,14 @@ public class ContaService {
             conta = criaConta(cliente);
         }
 
-        Conta contaDb = contaRepository.save(conta);
+        contaRepository.save(conta);
+        Conta contaDb = contaRepository.findById(conta.getId()).get();
 
-        ChequeEspecial chequeEspecial = chequeEspecialService.criaOuAtualizaChequeEspecial(contaDb);
+        ChequeEspecial chequeEspecial = chequeEspecialService.criaOuAtualizaChequeEspecial(contaDb, cliente.getScore());
         contaDb.adicionaChequeEspecial(chequeEspecial);
 
-        if (faixaScoreHelper.getFaixaByScore(conta.getScoreCliente()).geraCartaoCredito()) {
-            CartaoCredito cartaoCredito = cartaoCreditoService.criaOuAtualizaCartaoCredito(contaDb);
+        if (faixaScoreHelper.getFaixaByScore(cliente.getScore()).geraCartaoCredito()) {
+            CartaoCredito cartaoCredito = cartaoCreditoService.criaOuAtualizaCartaoCredito(contaDb, cliente.getScore());
             contaDb.adicionaCartaoCredito(cartaoCredito);
         }
 
@@ -62,11 +63,21 @@ public class ContaService {
                 .cliente(cliente)
                 .numero(conta.getNumero())
                 .agencia(agencia)
+                .chequeEspecial(conta.getChequeEspecial())
+                .cartaoCredito(conta.getCartaoCredito())
                 .tipoConta(cliente.getTipoPessoa().equals(TipoPessoa.FISICA) ? TipoConta.CORRENTE : TipoConta.EMPRESARIAL)
                 .build();
     }
 
     private String gerarNumeroConta() {
         return String.format("%06d", new Random().nextInt(999999));
+    }
+
+    public Iterable<Conta> findAll() {
+        return contaRepository.findAll();
+    }
+
+    public Optional<Conta> findById(final Long id) {
+        return contaRepository.findById(id);
     }
 }

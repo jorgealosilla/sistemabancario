@@ -39,17 +39,11 @@ public class Conta {
     @JoinColumn(name = "ID_CLIENTES")
     private Cliente cliente;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_CHEQUE_ESPECIAL")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "conta", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private ChequeEspecial chequeEspecial;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_CARTAO_CREDITO")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "conta", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private CartaoCredito cartaoCredito;
-
-    public int getScoreCliente() {
-        return cliente.getScore();
-    }
 
     public void adicionaChequeEspecial(ChequeEspecial chequeEspecial) {
         this.chequeEspecial = chequeEspecial;

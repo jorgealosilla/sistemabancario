@@ -1,8 +1,10 @@
-package br.com.banco.sistemabancario.model.cliente;
+package br.com.banco.sistemabancario.api.dto;
 
 import br.com.banco.sistemabancario.api.util.AbstractRepresentationBuilder;
-import lombok.Getter;
-import lombok.Setter;
+import br.com.banco.sistemabancario.model.cliente.Cliente;
+import br.com.banco.sistemabancario.model.cliente.TipoPessoa;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.Size;
@@ -15,70 +17,25 @@ import java.util.Random;
 @XmlAccessorType(XmlAccessType.FIELD)
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClienteDto {
     private Long id;
     @Size(max = 200)
     private String nome;
     private TipoPessoa tipo;
     @Size(min = 11, max = 11)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String cpf;
     @Size(min = 14, max = 14)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String cnpj;
 
     private int score;
 
-    private ClienteDto() {
-    }
-
-    public static class Builder {
-
-        private ClienteDto entityDto;
-
-        private Builder() {
-            entityDto = new ClienteDto();
-        }
-
-        public Builder id(Long id) {
-            entityDto.setId(id);
-            return this;
-        }
-
-        public Builder nome(String nome) {
-            entityDto.setNome(nome);
-            return this;
-        }
-
-        public Builder tipo(TipoPessoa tipoPessoa) {
-            entityDto.setTipo(tipoPessoa);
-            return this;
-        }
-
-        public Builder cpf(String cpf) {
-            entityDto.setCpf(cpf);
-            return this;
-        }
-
-        public Builder cnpj(String cnpj) {
-            entityDto.setCnpj(cnpj);
-            return this;
-        }
-
-        public Builder score(int score) {
-            entityDto.setScore(score);
-            return this;
-        }
-
-        public ClienteDto build() {
-            return entityDto;
-        }
-    }
-
     @Service
     public static final class RepresentationBuilder extends AbstractRepresentationBuilder<Cliente, ClienteDto, Cliente.ClienteBuilder> {
-
-        public static Builder create() {
-            return new Builder();
-        }
 
         @Override
         public Cliente fromRepresentation(final ClienteDto dto, final Cliente.ClienteBuilder builder) {
@@ -95,7 +52,7 @@ public class ClienteDto {
 
         @Override
         public ClienteDto toRepresentation(final Cliente entity) {
-            return create()
+            return ClienteDto.builder()
                     .id(entity.getId())
                     .nome(entity.getNome())
                     .tipo(entity.getTipoPessoa())
