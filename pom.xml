@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<projetc.reporting.outputEncoding>UTF-8</projetc.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<io.springfox.version>2.8.0</io.springfox.version>
 	</properties>
 
 	<dependencies>
@@ -68,6 +69,18 @@
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<scope>provided</scope>
+		</dependency>
+
+		<!--	Swagger	-->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${io.springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${io.springfox.version}</version>
 		</dependency>
 	</dependencies>
 
